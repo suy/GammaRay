@@ -5,7 +5,12 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/ui
   ${CMAKE_BINARY_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
-)
+
+# ### temporary
+  ${CMAKE_SOURCE_DIR}/core
+ )
+
+add_definitions(-DGAMMARAY_CLIENT) # temporary, for stuff in ui not properly independent yet
 
 set(gammaray_client_srcs
   main.cpp
@@ -14,6 +19,16 @@ set(gammaray_client_srcs
   selectionmodelclient.cpp
   objectclient.cpp
   clienttoolmodel.cpp
+
+# ### temporary
+  ../core/tools/widgetinspector/widgetinspector.cpp
+  ../core/tools/widgetinspector/overlaywidget.cpp
+  ../core/tools/widgetinspector/widgetpreviewwidget.cpp
+)
+
+qt4_wrap_ui(gammaray_client_srcs
+# ### temporary
+  ../core/tools/widgetinspector/widgetinspector.ui
 )
 
 qt4_automoc(${gammaray_client_srcs})

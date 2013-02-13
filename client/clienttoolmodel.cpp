@@ -7,6 +7,9 @@
 
 #include <QWidget>
 
+// ### temporary
+#include <../core/tools/widgetinspector/widgetinspector.h>
+
 using namespace GammaRay;
 
 
@@ -27,6 +30,7 @@ ClientToolModel::ClientToolModel(QObject* parent) : RemoteModel(QLatin1String("c
 {
   // TODO add tools
   insertFactory(new ObjectInspectorFactory);
+  insertFactory(new WidgetInspectorFactory(this));
 }
 
 ClientToolModel::~ClientToolModel()

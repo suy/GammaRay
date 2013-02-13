@@ -60,6 +60,7 @@ WidgetInspector::WidgetInspector(ProbeInterface *probe, QWidget *parent)
   connect(m_overlayWidget, SIGNAL(destroyed(QObject*)),
           SLOT(handleOverlayWidgetDestroyed(QObject*)));
 
+#ifndef GAMMARAY_CLIENT
   connect(probe->probe(), SIGNAL(widgetSelected(QWidget*,QPoint)), SLOT(widgetSelected(QWidget*)));
 
   WidgetTreeModel *widgetFilterProxy = new WidgetTreeModel(this);
@@ -73,6 +74,7 @@ WidgetInspector::WidgetInspector(ProbeInterface *probe, QWidget *parent)
   connect(ui->widgetTreeView->selectionModel(),
           SIGNAL(currentChanged(QModelIndex,QModelIndex)),
           SLOT(widgetSelected(QModelIndex)));
+#endif
 
   connect(ui->actionSaveAsImage, SIGNAL(triggered()), SLOT(saveAsImage()));
   connect(ui->actionSaveAsSvg, SIGNAL(triggered()), SLOT(saveAsSvg()));
@@ -105,6 +107,7 @@ static bool isMainWindowSubclassAcceptor(const QVariant &v)
 
 void WidgetInspector::selectDefaultItem()
 {
+#ifndef GAMMARAY_CLIENT
   const QAbstractItemModel *viewModel = ui->widgetTreeView->model();
   const QModelIndexList matches =
     ModelUtils::match(
@@ -114,6 +117,7 @@ void WidgetInspector::selectDefaultItem()
   if (!matches.isEmpty()) {
     ui->widgetTreeView->setCurrentIndex(matches.first());
   }
+#endif
 }
 
 void WidgetInspector::widgetSelected(const QModelIndex &index)
@@ -302,6 +306,7 @@ void WidgetInspector::callExternalExportAction(const char *name,
 
 void WidgetInspector::analyzePainting()
 {
+#ifndef GAMMARAY_CLIENT
   QWidget *widget = selectedWidget();
   if (!widget) {
     return;
@@ -318,6 +323,7 @@ void WidgetInspector::analyzePainting()
   viewer->setAttribute(Qt::WA_DeleteOnClose);
   viewer->setPaintBuffer(buffer);
   viewer->show();
+#endif
 #endif
 }
 
