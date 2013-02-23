@@ -50,8 +50,10 @@
 using namespace GammaRay;
 
 WidgetInspector::WidgetInspector(ProbeInterface *probe, QWidget *parent)
-  : QWidget(parent), ui(new Ui::WidgetInspector), m_overlayWidget(new OverlayWidget),
-  m_propertyController(new PropertyController("com.kdab.GammaRay.WidgetInspector", this))
+  : QWidget(parent), ui(new Ui::WidgetInspector), m_overlayWidget(new OverlayWidget)
+#ifndef GAMMARAY_CLIENT
+  ,m_propertyController(new PropertyController("com.kdab.GammaRay.WidgetInspector", this))
+#endif
 {
   ui->setupUi(this);
   ui->widgetPropertyWidget->setObjectBaseName("com.kdab.GammaRay.WidgetInspector");
@@ -130,7 +132,9 @@ void WidgetInspector::widgetSelected(const QModelIndex &index)
       widget = layout->parentWidget();
     }
 
+#ifndef GAMMARAY_CLIENT
     m_propertyController->setObject(obj);
+#endif
     ui->widgetPreviewWidget->setWidget(widget);
     setActionsEnabled(widget != 0);
 
@@ -142,7 +146,9 @@ void WidgetInspector::widgetSelected(const QModelIndex &index)
       m_overlayWidget->placeOn(0);
     }
   } else {
+#ifndef GAMMARAY_CLIENT
     m_propertyController->setObject(0);
+#endif
     ui->widgetPreviewWidget->setWidget(0);
     m_overlayWidget->placeOn(0);
     setActionsEnabled(false);
