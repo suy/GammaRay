@@ -42,6 +42,7 @@
 #include "tools/standardpaths/standardpaths.h"
 #include "tools/mimetypes/mimetypes.h"
 #endif
+#include "tools/signalmonitor/signalmonitor.h"
 
 #include "pluginmanager.h"
 #include "probe.h"
@@ -76,6 +77,7 @@ ToolModel::ToolModel(QObject *parent): QAbstractListModel(parent)
   m_tools.push_back(new StandardPathsFactory(this));
   m_tools.push_back(new MimeTypesFactory(this));
 #endif
+  m_tools.push_back(new SignalMonitorFactory(this));
 
   Q_FOREACH (ToolFactory *factory, PluginManager::instance(this)->plugins()) {
     m_tools.push_back(factory);
